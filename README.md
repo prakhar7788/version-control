@@ -6,7 +6,7 @@ System Design
 │   React     │────────▶│   Express   │────────▶│   GitHub    │
 │  Frontend   │  HTTP   │   Backend   │   API   │     API     │
 └─────────────┘         └─────────────┘         └─────────────┘
-      │                        │                        │
+      │                        │                        │ 
       │                        │                        │
    Browser              JWT Auth                  Git Storage
 Components
