@@ -1,194 +1,109 @@
-# version control
+Deployment Guide
+Frontend Deployment (Vercel)
+Option 1: Vercel CLI
+Install Vercel CLI:
+npm install -g vercel
+Deploy frontend:
+cd frontend
+vercel --prod
+Set environment variables in Vercel dashboard:
+REACT_APP_API_URL: Your backend URL
+REACT_APP_GITHUB_CLIENT_ID: Your GitHub OAuth Client ID
+Option 2: Vercel Dashboard
+Go to vercel.com
+Import your GitHub repository
+Set root directory to frontend
+Add environment variables
+Deploy
+Backend Deployment (Render)
+Steps:
+Go to render.com
 
-Architecture Overview
-System Design
-┌─────────────┐         ┌─────────────┐         ┌─────────────┐
-│   React     │────────▶│   Express   │────────▶│   GitHub    │
-│  Frontend   │  HTTP   │   Backend   │   API   │     API     │
-└─────────────┘         └─────────────┘         └─────────────┘
-      │                        │                        │ 
-      │                        │                        │
-   Browser              JWT Auth                  Git Storage
-Components
-Frontend (React)
-Technology Stack:
+Create new Web Service
 
-React 18
-React Router for navigation
-Axios for HTTP requests
-Context API for state management
-Key Features:
+Connect your GitHub repository
 
-GitHub OAuth authentication
-Course management interface
-File upload with drag-and-drop
-Version history viewer
-File restore functionality
-Pages:
+Configure:
 
-/login - GitHub OAuth login
-/auth/callback - OAuth callback handler
-/dashboard - Main application interface
-Backend (Node.js/Express)
-Technology Stack:
+Name: course-vcs-backend
+Root Directory: backend
+Build Command: npm install
+Start Command: npm start
+Add environment variables:
 
-Express.js
-Octokit (GitHub REST API client)
-JWT for authentication
-Multer for file uploads
-API Endpoints:
+PORT=5000
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+GITHUB_TOKEN=your_github_personal_access_token
+GITHUB_OWNER=your_github_username
+GITHUB_REPO=course-content-repo
+JWT_SECRET=your_random_jwt_secret_min_32_chars
+FRONTEND_URL=https://your-frontend-url.vercel.app
+Deploy
+Backend Deployment (Railway)
+Steps:
+Go to railway.app
+Create new project from GitHub repo
+Add environment variables (same as above)
+Deploy
+Post-Deployment
+Update GitHub OAuth App
+Go to GitHub Settings → Developer settings → OAuth Apps
+Update your OAuth App:
+Homepage URL: https://your-frontend-url.vercel.app
+Authorization callback URL: https://your-frontend-url.vercel.app/auth/callback
+Update Frontend Environment
+Update REACT_APP_API_URL in Vercel to point to your deployed backend URL.
 
-POST   /api/auth/github              - GitHub OAuth
-GET    /api/courses                  - List all courses
-GET    /api/courses/:name/files      - List files in course
-POST   /api/courses/:name/upload     - Upload file
-GET    /api/files/:course/:file/history  - Get version history
-POST   /api/files/:course/:file/restore  - Restore version
-GET    /api/files/:course/:file/download - Download file
-Middleware:
+Test the Application
+Visit your frontend URL
+Login with GitHub
+Create a course
+Upload a file
+View version history
+Test restore functionality
+Scaling Considerations
+For Institutional Use:
+Rate Limiting: Implement rate limiting on backend API
+Caching: Add Redis for caching GitHub API responses
+File Size Limits: Configure appropriate file size limits
+Database: Consider adding PostgreSQL for user management and metadata
+CDN: Use CDN for serving static files
+Monitoring: Set up error tracking (Sentry) and analytics
+Backup: Regular backups of GitHub repository
+GitHub API Rate Limits:
+Authenticated requests: 5,000 per hour
+For larger institutions, consider GitHub Enterprise
+Optimization Tips:
+Cache course and file listings
+Implement pagination for large file lists
+Use GitHub webhooks for real-time updates
+Compress large files before upload
+Implement lazy loading for file history
+Security Checklist
+ GitHub tokens stored securely in environment variables
+ CORS configured for production domains only
+ JWT secret is strong and random
+ HTTPS enabled on both frontend and backend
+ Rate limiting implemented
+ Input validation on all endpoints
+ File type and size restrictions
+ Regular security audits
+Monitoring
+Recommended Tools:
+Error Tracking: Sentry
+Uptime Monitoring: UptimeRobot
+Analytics: Google Analytics or Plausible
+Logs: Papertrail or Logtail
+Backup Strategy
+GitHub repository serves as primary backup
+Regular exports of user data
+Database backups (if using PostgreSQL)
+Configuration backups
+Support
+For issues or questions:
 
-CORS for cross-origin requests
-JWT authentication
-Error handling
-GitHub Integration
-Repository Structure:
-
-course-content-repo/
-├── courses/
-│   ├── CS101/
-│   │   ├── syllabus.pdf
-│   │   ├── lecture1.pptx
-│   │   └── assignment1.pdf
-│   ├── Mathematics/
-│   │   ├── syllabus.pdf
-│   │   └── notes.pdf
-│   └── Physics/
-│       └── lab_manual.pdf
-GitHub API Usage:
-
-PUT /repos/{owner}/{repo}/contents/{path} - Create/update files
-GET /repos/{owner}/{repo}/contents/{path} - Get file contents
-GET /repos/{owner}/{repo}/commits - Get commit history
-Version Control:
-
-Each file upload creates a new commit
-Commit messages include timestamp and author
-Full Git history maintained automatically
-Restore creates new commit with old content
-Data Flow
-File Upload Flow:
-User selects file in React frontend
-File sent to backend via multipart/form-data
-Backend converts file to base64
-Backend creates/updates file in GitHub via API
-GitHub creates new commit
-Success response sent to frontend
-Frontend refreshes file list
-Version History Flow:
-User clicks "History" button
-Frontend requests commit history from backend
-Backend queries GitHub API for commits on file path
-GitHub returns commit list
-Backend formats and returns to frontend
-Frontend displays in modal
-Restore Flow:
-User selects version to restore
-Frontend sends restore request with commit SHA
-Backend fetches file content at that SHA
-Backend creates new commit with old content
-GitHub updates file
-Frontend refreshes file list
-Security Architecture
-Authentication:
-GitHub OAuth for user login
-JWT tokens for session management
-Tokens stored in localStorage
-Backend validates JWT on each request
-Authorization:
-GitHub Personal Access Token for repo operations
-Token stored securely in backend environment
-Never exposed to frontend
-Backend acts as secure proxy
-Data Protection:
-HTTPS for all communications
-CORS restricted to frontend domain
-Input validation on all endpoints
-File type and size restrictions
-Scalability Considerations
-Current Limitations:
-GitHub API rate limit: 5,000 requests/hour
-File size limit: 100MB per file
-Single repository storage
-Scaling Solutions:
-For More Users:
-
-Implement caching layer (Redis)
-Add database for metadata (PostgreSQL)
-Use GitHub webhooks for updates
-Implement request queuing
-For More Files:
-
-Multiple repositories per institution
-Sharding by course or department
-CDN for file delivery
-Compression for large files
-For Better Performance:
-
-Server-side pagination
-Lazy loading
-Background job processing
-Caching strategies
-Technology Choices
-Why React?
-Component-based architecture
-Large ecosystem
-Easy to learn and maintain
-Good performance
-Why Express?
-Lightweight and flexible
-Large middleware ecosystem
-Easy GitHub API integration
-Good for REST APIs
-Why GitHub as Backend?
-Built-in version control
-No database setup needed
-Free for public repos
-Reliable and scalable
-Familiar to developers
-Built-in backup and history
-Future Enhancements
-Diff Viewer: Compare file versions side-by-side
-Notifications: Email alerts for content updates
-Collaboration: Multiple teachers per course
-Comments: Add notes to specific versions
-Search: Full-text search across files
-Analytics: Track file access and downloads
-Mobile App: Native mobile applications
-Bulk Operations: Upload multiple files at once
-Templates: Course templates for quick setup
-Integration: LMS integration (Canvas, Moodle)
-Error Handling
-Frontend:
-User-friendly error messages
-Automatic retry for network errors
-Loading states for async operations
-Form validation
-Backend:
-Centralized error handling middleware
-Detailed error logging
-Graceful degradation
-API error responses with status codes
-Testing Strategy
-Frontend Testing:
-Unit tests for components
-Integration tests for API calls
-E2E tests for critical flows
-Backend Testing:
-Unit tests for routes
-Integration tests for GitHub API
-API endpoint tests
-Manual Testing:
-Cross-browser testing
-Mobile responsiveness
-File upload edge cases
-Version restore scenarios
+Check GitHub Issues
+Review API logs
+Verify environment variables
+Test GitHub API connectivity
