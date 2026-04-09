@@ -1,0 +1,72 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.login-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.login-card h1 {
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 28px;
+}
+
+.login-card p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.btn-github {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 24px;
+  background: #24292e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-github:hover {
+  background: #1b1f23;
+}
+
+.features {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+}
+
+.feature {
+  text-align: center;
+}
+
+.feature span {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.feature p {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
