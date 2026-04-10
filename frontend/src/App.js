@@ -89,9 +89,7 @@ const Dashboard = () => {
   const [fileHistory, setFileHistory] = React.useState([]);
   const [selectedFile, setSelectedFile] = React.useState(null);
 
-  React.useEffect(() => { loadCourses(); }, []);
-
-  const loadCourses = async () => {
+  const loadCourses = React.useCallback(async () => {
     setLoading(true);
     try {
       const data = await api.getCourses(token);
@@ -102,7 +100,9 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
+
+  React.useEffect(() => { loadCourses(); }, [loadCourses]);
 
   const loadFiles = async (courseName) => {
     setLoading(true);

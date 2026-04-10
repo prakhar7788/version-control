@@ -148,7 +148,7 @@ const Dashboard = () => {
     <div className="dashboard">
       <nav className="navbar">
         <div className="navbar-content">
-          <h2>📚 Course Content VCS</h2>
+          <h2> Course Content VCS</h2>
           <div className="user-info">
             <img src={user.avatar_url} alt={user.name} />
             <span>{user.name || user.login}</span>
