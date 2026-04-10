@@ -29,7 +29,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-card">
-        <h1>📚 Course Content VCS</h1>
+        <h1>Course Content VCS</h1>
         <p>Git-powered academic content management system</p>
         <button className="btn btn-github" onClick={handleGitHubLogin}>
           <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor">
