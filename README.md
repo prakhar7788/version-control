@@ -254,22 +254,8 @@ If you encounter issues:
 4. Verify all environment variables are set correctly
 5. Check that all services are running
 
-## Security Notes
 
-- Never commit `.env` files to Git
-- Keep your GitHub tokens secure
-- Use strong JWT secrets
-- Enable 2FA on your GitHub account
-- Regularly rotate access tokens
-- Use private repositories for sensitive content
 
-## Development Tips
-
-- Use `console.log()` for debugging
-- Check browser DevTools Network tab for API errors
-- Check backend terminal for server errors
-- Use React DevTools for component debugging
-- Test with different file types and sizes
 
 ## File Structure
 
