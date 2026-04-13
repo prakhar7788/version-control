@@ -4,7 +4,7 @@ import { courseAPI, fileAPI } from '../services/api';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, role, isFaculty, isStudent } = useAuth();
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [files, setFiles] = useState([]);
@@ -150,6 +150,7 @@ const Dashboard = () => {
         <div className="navbar-content">
           <h2> Course Content VCS</h2>
           <div className="user-info">
+            <span className={`role-badge ${role}`}>{role === 'student' ? '🎓 Student' : '👨‍🏫 Faculty'}</span>
             <img src={user.avatar_url} alt={user.name} />
             <span>{user.name || user.login}</span>
             <button className="btn btn-secondary" onClick={logout}>Logout</button>
@@ -163,28 +164,30 @@ const Dashboard = () => {
 
         {!selectedCourse ? (
           <>
-            <div className="card">
-              <h3>Create New Course</h3>
-              <form className="new-course-form" onSubmit={handleCreateCourse}>
-                <input
-                  type="text"
-                  placeholder="Enter course name (e.g., CS101, Mathematics)"
-                  value={newCourseName}
-                  onChange={(e) => setNewCourseName(e.target.value)}
-                  required
-                />
-                <button type="submit" className="btn btn-primary" disabled={loading}>
-                  Create Course
-                </button>
-              </form>
-            </div>
+            {isFaculty && (
+              <div className="card">
+                <h3>Create New Course</h3>
+                <form className="new-course-form" onSubmit={handleCreateCourse}>
+                  <input
+                    type="text"
+                    placeholder="Enter course name (e.g., CS101, Mathematics)"
+                    value={newCourseName}
+                    onChange={(e) => setNewCourseName(e.target.value)}
+                    required
+                  />
+                  <button type="submit" className="btn btn-primary" disabled={loading}>
+                    Create Course
+                  </button>
+                </form>
+              </div>
+            )}
 
-            <h3>Your Courses</h3>
+            <h3>{isStudent ? 'Available Courses' : 'Your Courses'}</h3>
             {loading ? (
               <div className="loading">Loading courses...</div>
             ) : courses.length === 0 ? (
               <div className="card">
-                <p>No courses yet. Create your first course above!</p>
+                <p>{isFaculty ? 'No courses yet. Create your first course above!' : 'No courses available yet.'}</p>
               </div>
             ) : (
               <div className="course-grid">
@@ -210,19 +213,21 @@ const Dashboard = () => {
               {' / ' + selectedCourse}
             </div>
 
-            <div className="upload-section">
-              <h3>Upload Course Material</h3>
-              <form className="upload-form" onSubmit={handleUpload}>
-                <input
-                  type="file"
-                  onChange={(e) => setUploadFile(e.target.files[0])}
-                  required
-                />
-                <button type="submit" className="btn btn-primary" disabled={loading}>
-                  Upload
-                </button>
-              </form>
-            </div>
+            {isFaculty && (
+              <div className="upload-section">
+                <h3>Upload Course Material</h3>
+                <form className="upload-form" onSubmit={handleUpload}>
+                  <input
+                    type="file"
+                    onChange={(e) => setUploadFile(e.target.files[0])}
+                    required
+                  />
+                  <button type="submit" className="btn btn-primary" disabled={loading}>
+                    Upload
+                  </button>
+                </form>
+              </div>
+            )}
 
             <div className="card">
               <h3>Course Materials</h3>
@@ -284,12 +289,14 @@ const Dashboard = () => {
                       >
                         Download This Version
                       </button>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => restoreVersion(commit.sha)}
-                      >
-                        Restore
-                      </button>
+                      {isFaculty && (
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => restoreVersion(commit.sha)}
+                        >
+                          Restore
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))

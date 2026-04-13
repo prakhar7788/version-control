@@ -5,7 +5,7 @@ const router = express.Router();
 
 // GitHub OAuth callback
 router.post('/github', async (req, res) => {
-  const { code } = req.body;
+  const { code, role } = req.body;
 
   try {
     // Exchange code for access token
@@ -29,15 +29,17 @@ router.post('/github', async (req, res) => {
     });
 
     const user = userResponse.data;
+    const userRole = role || 'student';
 
-    // Create JWT token
+    // Create JWT token with role
     const token = jwt.sign(
       {
         id: user.id,
         login: user.login,
         name: user.name,
         email: user.email,
-        avatar_url: user.avatar_url
+        avatar_url: user.avatar_url,
+        role: userRole
       },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
@@ -50,7 +52,8 @@ router.post('/github', async (req, res) => {
         login: user.login,
         name: user.name,
         email: user.email,
-        avatar_url: user.avatar_url
+        avatar_url: user.avatar_url,
+        role: userRole
       }
     });
   } catch (error) {

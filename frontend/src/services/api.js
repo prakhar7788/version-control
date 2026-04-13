@@ -15,7 +15,7 @@ api.interceptors.request.use((config) => {
 });
 
 export const authAPI = {
-  githubAuth: (code) => api.post('/api/auth/github', { code })
+  githubAuth: (code, role = 'student') => api.post('/api/auth/github', { code, role })
 };
 
 export const courseAPI = {

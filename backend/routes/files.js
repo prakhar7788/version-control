@@ -1,6 +1,7 @@
 const express = require('express');
 const { octokit, config } = require('../config/github');
 const authMiddleware = require('../middleware/auth');
+const { requireFaculty } = require('../middleware/roleAuth');
 
 const router = express.Router();
 
@@ -38,8 +39,8 @@ router.get('/:courseName/:fileName/history', authMiddleware, async (req, res) =>
   }
 });
 
-// Restore file to a specific version
-router.post('/:courseName/:fileName/restore', authMiddleware, async (req, res) => {
+// Restore file to a specific version (Faculty only)
+router.post('/:courseName/:fileName/restore', authMiddleware, requireFaculty, async (req, res) => {
   const { courseName, fileName } = req.params;
   const { sha } = req.body;
   const user = req.user;

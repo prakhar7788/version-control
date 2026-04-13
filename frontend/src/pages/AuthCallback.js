@@ -12,6 +12,7 @@ const AuthCallback = () => {
     const handleCallback = async () => {
       const params = new URLSearchParams(window.location.search);
       const code = params.get('code');
+      const role = sessionStorage.getItem('loginRole') || 'student';
 
       if (!code) {
         setError('No authorization code received');
@@ -19,8 +20,9 @@ const AuthCallback = () => {
       }
 
       try {
-        const response = await authAPI.githubAuth(code);
-        login(response.data.token, response.data.user);
+        const response = await authAPI.githubAuth(code, role);
+        login(response.data.token, response.data.user, role);
+        sessionStorage.removeItem('loginRole');
         navigate('/dashboard');
       } catch (err) {
         console.error('Auth error:', err);

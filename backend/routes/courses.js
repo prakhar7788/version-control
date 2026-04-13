@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const { octokit, config } = require('../config/github');
 const authMiddleware = require('../middleware/auth');
+const { requireFaculty } = require('../middleware/roleAuth');
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -62,8 +63,8 @@ router.get('/:courseName/files', authMiddleware, async (req, res) => {
   }
 });
 
-// Upload or update file
-router.post('/:courseName/upload', authMiddleware, upload.single('file'), async (req, res) => {
+// Upload or update file (Faculty only)
+router.post('/:courseName/upload', authMiddleware, requireFaculty, upload.single('file'), async (req, res) => {
   const { courseName } = req.params;
   const file = req.file;
   const user = req.user;
