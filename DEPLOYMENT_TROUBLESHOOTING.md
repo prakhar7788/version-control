@@ -163,37 +163,3 @@ Expected response:
 4. Authorize the application
 5. Should redirect to dashboard
 
-### 3. Test API Endpoints
-```bash
-# Get courses (requires auth token)
-curl -H "Authorization: Bearer YOUR_TOKEN" \
-  https://your-backend.onrender.com/api/courses
-```
-
----
-
-## Getting Help
-
-If issues persist:
-
-1. **Check Browser Console** (F12) for JavaScript errors
-2. **Check Backend Logs** in Render/Railway dashboard
-3. **Verify Environment Variables** are set correctly
-4. **Test Locally First** to isolate deployment issues
-5. **Check GitHub OAuth App Settings** one more time
-
-### Useful Commands
-
-**View Vercel logs:**
-```bash
-vercel logs
-```
-
-**Test backend locally:**
-```bash
-cd backend
-npm start
-```
-
-
-- Railway Documentation: https://docs.railway.app
