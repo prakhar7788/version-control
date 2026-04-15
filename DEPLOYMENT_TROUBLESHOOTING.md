@@ -195,28 +195,5 @@ cd backend
 npm start
 ```
 
-**Test frontend locally:**
-```bash
-cd frontend
-npm start
-```
 
----
-
-## Quick Reference: URLs to Update
-
-When deploying, update these locations:
-
-1. **GitHub OAuth App** → Authorization callback URL
-2. **Vercel Environment Variables** → REACT_APP_API_URL
-3. **Backend Environment Variables** → FRONTEND_URL
-4. **Local .env files** → Keep separate for development
-
----
-
-## Support Resources
-
-- GitHub OAuth Documentation: https://docs.github.com/en/apps/oauth-apps
-- Vercel Documentation: https://vercel.com/docs
-- Render Documentation: https://render.com/docs
 - Railway Documentation: https://docs.railway.app
