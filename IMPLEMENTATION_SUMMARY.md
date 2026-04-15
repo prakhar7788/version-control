@@ -9,8 +9,8 @@ Successfully implemented role-based access control with separate login options f
 
 #### 1. Login Page (`frontend/src/pages/Login.js`)
 - Added role selection interface with two options:
-  - Student - View and download course materials
-  - 👨‍🏫 Faculty - Manage courses and materials
+    Student - View and download course materials
+    Faculty - Manage courses and materials
 - Role is stored in sessionStorage before OAuth redirect
 - Users can go back and change role selection
 
