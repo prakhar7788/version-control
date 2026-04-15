@@ -60,11 +60,4 @@ Faculty members have full access to manage courses:
 - `GET /api/files/:courseName/:fileName/history` - View file history
 - `GET /api/files/:courseName/:fileName/download` - Download files
 
-## Testing
 
-To test different roles:
-1. Logout if currently logged in
-2. Select "Student" role and login
-3. Verify you can only view and download content
-4. Logout and select "Faculty" role
-5. Verify you can create courses and upload files
