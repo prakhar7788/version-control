@@ -4,7 +4,7 @@ Verision control system
 ## Prerequisites
 
 Before you begin, ensure you have:
-- Node.js 18+ installed ([Download](https://nodejs.org/))
+- Node.js 18+ installed 
 - npm (comes with Node.js)
 - A GitHub account
 - Git installed on your machine
