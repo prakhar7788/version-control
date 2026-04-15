@@ -14,7 +14,7 @@
 
 ## Components
 
-### Frontend (React)
+### Frontend 
 
 **Technology Stack:**
 - React 18
