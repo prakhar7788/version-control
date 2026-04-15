@@ -4,7 +4,7 @@ This application now supports two user roles: **Student** and **Faculty**.
 
 ## User Roles
 
-### Student Role 🎓
+### Student Role 
 Students have read-only access to course materials:
 - View all available courses
 - Browse course materials
@@ -17,7 +17,7 @@ Students have read-only access to course materials:
 - Cannot upload files
 - Cannot restore previous versions
 
-### Faculty Role 👨‍🏫
+### Faculty Role 
 Faculty members have full access to manage courses:
 - Create new courses
 - Upload course materials
